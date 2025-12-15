@@ -1,23 +1,20 @@
+## 🎯 Goals for Today
 
-# Backend Starter Kit (Python + FastAPI)
-
-## Goal
-
-This repository is a **learning-first backend project** built step by step to reach a
-**clean, production-minded FastAPI backend**.
-
-The goal is not just to make the app run,
-but to understand **why each architectural decision exists**.
+- Understand Python type hints
+- Improve code clarity and readability
+- Introduce explicit return types for endpoints
 
 ---
 
-## Tech Stack (Current)
+### What I Learned
 
-- Python 3.x
-- FastAPI
-- Uvicorn
+- Basic type hints: `list`, `dict`
+- Meaning and purpose of `Optional`
+- Meaning and correct use of `Union`
+- Difference between type hints and runtime validation
+- How type hints act as design contracts, not enforcement
+- Why explicit typing helps future scalability and maintenance
 
-> Later: PostgreSQL, Redis, pytest, Docker, CI/CD
 
 ---
 
@@ -65,44 +62,6 @@ backend-starter/
 │   └── main.py        # FastAPI app + health endpoint
 ├── README.md
 └── .gitignore
-```
-
----
-
-## How to Run
-
-```bash
-uvicorn app.main:app --reload
-```
-
-Then open:
-
-```
-http://127.0.0.1:8000/health
-```
-
-Expected response:
-
-```json
-{ "status": "ok" }
-```
-
----
-
-## Learning Principles
-
-* Prefer clarity over shortcuts
-* Introduce complexity only when it becomes necessary
-* Separate **design (type hints)** from **runtime enforcement (validation)**
-* Treat the repository as a long-lived product, not a demo
-
----
-
-## Next Step
-
-* Day 5: `pathlib` and project growth mindset
-* Preparing the mental model for a multi-module backend architecture
-
 ```
 
 ---
