@@ -1,4 +1,4 @@
-# 📘 Day 01 --- Creating Project Scaffold
+# 📘 Day 02 --- Creating Project Scaffold
 
 ## 🎯 Goals for Today
 

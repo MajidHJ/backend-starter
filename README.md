@@ -1,46 +1,88 @@
-# Backend Starter Kit (Python + FastAPI)
+# Backend Starter Kit (FastAPI)
 
-## Goal
+## Overview
 
-This repository is part of a step-by-step learning journey to build a **production-minded backend starter kit** using Python and FastAPI.
+This repository is the starting point of a **production-minded backend project** built with Python and FastAPI.
 
-The goal is not just to make the app work, but to understand:
-- why the structure exists
-- how the environment is managed
-- how imports, dependencies, and execution really work
+The goal of this project is not only to build a working API, but to **develop correct engineering thinking**, clean structure, and scalable architecture step by step.
 
-This project will gradually evolve into a clean, testable, and deployable backend foundation.
+At this stage, the project is intentionally simple and focused on foundations.
 
 ---
 
-## Current Stage
+## Tech Stack (Current)
 
-**Month 1 – Week 1 – Day 2**  
-**Focus:** Python Environment & Import System
-
-At this stage, the focus is on setting up a **correct and reproducible development environment** and understanding how Python resolves imports in a real project.
-
-The application logic is intentionally minimal.
-
----
-
-## What Has Been Done So Far
-
-### Environment
-- A dedicated Python **virtual environment (`.venv`)** has been created at the root of the repository.
-- All dependencies are installed **inside the virtual environment**, not globally.
-- Dependency versions have been frozen for reproducibility.
-
-### Dependencies
-Installed runtime dependencies:
+- Python 3.x
 - FastAPI
-- Uvicorn (with standard extras)
+- Uvicorn (development server)
 
-Current dependency snapshot is stored in:
+> More tools (PostgreSQL, Redis, testing, Docker, CI, etc.) will be introduced gradually as the project evolves.
+
+---
+
+## Project Status — Day 3
+
+### What is implemented
+
+- Project repository initialized
+- Basic application structure created
+- FastAPI application running successfully
+- First HTTP endpoint implemented:
+
 ```
 
-requirements.txt
+GET /health
 
+````
+
+Response example:
+```json
+{
+  "status": "ok"
+}
+````
+
+This endpoint is designed as a **health check** for operational and infrastructure-level usage.
+
+---
+
+## Why `/health` Exists
+
+The `/health` endpoint is not a demo feature.
+
+It is an **operational endpoint** used by:
+
+* load balancers
+* containers
+* monitoring systems
+* deployment pipelines
+
+Its purpose is to answer a simple question:
+
+> "Is this service alive?"
+
+For this reason:
+
+* it uses HTTP `GET`
+* it has no side effects
+* it returns a deterministic response
+
+---
+
+## How to Run the Project (Development)
+
+1. Create and activate a virtual environment
+2. Install dependencies
+3. Run the application
+
+```bash
+uvicorn app.main:app --reload
+```
+
+Then open in browser:
+
+```
+http://127.0.0.1:8000/health
 ```
 
 ---
@@ -48,85 +90,54 @@ requirements.txt
 ## Project Structure (Current)
 
 ```
-
 backend-starter/
 ├── app/
-│   ├── **init**.py
-│   └── main.py
-├── .venv/
-├── requirements.txt
-├── .gitignore
-└── README.md
+│   └── main.py        # FastAPI application entrypoint
+├── README.md
+└── .gitignore
+```
 
-````
-
-### Notes
-- `app` is an explicit Python package (via `__init__.py`)
-- `main.py` contains the minimal FastAPI application object
-- No endpoints are implemented yet by design
+> The structure will expand gradually in future weeks.
+> No premature abstractions are introduced at this stage.
 
 ---
 
-## Running the Application
+## Learning Focus (So Far)
 
-Activate the virtual environment first:
-
-**Windows (PowerShell):**
-```powershell
-.\.venv\Scripts\Activate.ps1
-````
-
-**macOS / Linux:**
-
-```bash
-source ./.venv/bin/activate
-```
-
-Run the development server:
-
-```bash
-uvicorn app.main:app --reload
-```
-
-If successful, the application starts and FastAPI’s interactive docs are available at:
-
-```
-http://127.0.0.1:8000/docs
-```
+* Python project setup
+* Virtual environments
+* Import system basics
+* FastAPI fundamentals
+* HTTP endpoint concept
+* Meaningful use of HTTP methods (`GET`)
 
 ---
 
-## What This Stage Is About
+## Roadmap
 
-At Day 2, the project intentionally focuses on fundamentals:
+This repository is part of a **6-month backend learning roadmap** that will progressively cover:
 
-* Why each project needs its own virtual environment
-* How `pip` installs dependencies inside that environment
-* The difference between modules and packages
-* Why `__init__.py` matters in real-world projects
-* How `uvicorn app.main:app` uses Python’s import system
+* Clean application structure
+* Configuration management
+* Logging and observability
+* API versioning
+* Business logic separation
+* Database integration
+* Authentication & authorization
+* Testing
+* Docker & CI
+* Production readiness
 
-No business logic or endpoints are added yet on purpose.
-
----
-
-## Next Step
-
-**Day 3 – FastAPI Basics & First Endpoint**
-
-* Add the first real endpoint (`/health`)
-* Understand how FastAPI routes work
-* Confirm the application is truly “alive”
+Each step is intentional and builds on previous decisions.
 
 ---
 
-## Status
+## Philosophy
 
-✅ Environment set up correctly
-✅ Dependencies isolated and reproducible
-✅ Application runs successfully
-🟡 Business logic and API endpoints coming next
+This project prioritizes:
 
-```
+* clarity over cleverness
+* correctness over shortcuts
+* understanding over copying
 
----
+Nothing here is accidental.
