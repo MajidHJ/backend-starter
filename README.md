@@ -1,127 +1,120 @@
 # Backend Starter Kit (Python + FastAPI)
 
-## Goal
+## Purpose
 
-This repository is the starting point of a **production-minded backend project** built step by step over several months.
+This repository is a long-term learning and reference project aimed at building
+a **production-grade backend foundation** with a strong focus on:
 
-The goal is not just to make the application run, but to:
-- understand *why* each file exists
-- build a clean, scalable structure
-- develop the correct architectural mindset for real-world backend systems
+- Correct fundamentals
+- Clean architecture
+- Explicit design decisions
+- Long-term maintainability
 
----
-
-## Tech Stack (Target)
-
-- Python 3.x
-- FastAPI
-- (Later) PostgreSQL
-- (Later) Redis
-- (Later) pytest
-- (Later) Docker & CI
-
-> Not all tools are used yet.  
-> They will be introduced gradually, with clear reasoning.
+The goal is not speed, shortcuts, or feature accumulation.
+The goal is to **understand why each part exists** and how real backend systems
+are built and evolved over time.
 
 ---
 
-## Current Status (End of Week 1 – Day 5)
+## Philosophy
 
-At this stage:
+This project follows a few strict principles:
 
-- The repository is initialized and clean
-- FastAPI application runs successfully
-- A basic `/health` endpoint is implemented
-- Python typing is introduced for clarity and correctness
-- Project structure is intentionally minimal
-- Path handling is based on `pathlib` to ensure future stability
+- **Clarity over cleverness**
+- **Explicit over implicit**
+- **Structure before features**
+- **Understanding before optimization**
 
-The focus so far has been:
-- correctness over shortcuts
-- understanding over speed
-- foundations over features
+Many things may look “overkill” early on.
+That is intentional.
 
----
-
-## Project Philosophy
-
-This project follows these principles:
-
-- **Separation of concerns**  
-  Code will be organized by responsibility, not convenience.
-
-- **Growth-aware design**  
-  Decisions are made with future scaling in mind.
-
-- **Explicit over implicit**  
-  Nothing is added “because it works” — every part must be explainable.
-
-- **Production mindset from day one**  
-  Even simple code should not create future traps.
+Every abstraction, folder, and pattern is introduced only when it solves a
+real problem—and never just because it is popular.
 
 ---
 
-## Project Structure (Current)
+## Learning Approach
 
-```text
-backend-starter/
-├── app/
-│   └── main.py        # FastAPI entrypoint
-├── README.md
-├── .gitignore
-````
+The project is developed gradually over several months.
 
-> More layers (api, domain, application, infrastructure)
-> will be added progressively when their purpose is clear.
+Each stage focuses on:
+- One layer of the system
+- One class of problems
+- One set of trade-offs
 
----
+Nothing is skipped.
+Nothing is magically assumed.
 
-## How to Run (Development)
-
-```bash
-uvicorn app.main:app --reload
-```
-
-Then open:
-
-```
-http://127.0.0.1:8000/health
-```
-
-Expected response:
-
-```json
-{"status": "ok"}
-```
+Temporary implementations are allowed,
+but unclear mental models are not.
 
 ---
 
-## Notes
+## Target Architecture
 
-This repository is intentionally simple at the beginning.
+The final system is designed as a **modular monolith** with clear separation
+between concerns:
 
-Complexity will be introduced **only when it becomes necessary**,
-and always with a clear explanation of *why*.
+- API layer (HTTP, request/response)
+- Application layer (use cases, orchestration)
+- Domain layer (business rules and policies)
+- Infrastructure layer (database, external services)
+- Supporting layers (logging, config, workers, messaging)
 
----
-
-## Progress Log
-
-* [x] Project initialization
-* [x] Git repository setup
-* [x] Virtual environment
-* [x] FastAPI basic app
-* [x] `/health` endpoint
-* [x] Python typing basics
-* [x] Path handling with `pathlib`
+The structure is inspired by Clean Architecture principles,
+adapted pragmatically for real-world backend development.
 
 ---
 
-## Disclaimer
+## Technology Stack (Target)
 
-This project is part of a structured learning path.
-Refactoring and changes are expected as understanding deepens.
+- Language: Python
+- Framework: FastAPI
+- Database: PostgreSQL
+- ORM: SQLAlchemy
+- Migrations: Alembic
+- Auth: JWT-based authentication
+- Queue & Workers: Redis + background workers
+- Testing: pytest (unit & integration)
+- Deployment: Docker, docker-compose
+- CI: automated linting and tests
+- Observability: structured logging, health checks
 
+Not all of these exist at the beginning.
+They are introduced progressively and deliberately.
+
+---
+
+## What This Project Is NOT
+
+- A tutorial with copy-paste snippets
+- A minimal FastAPI example
+- A “get productive in 30 minutes” repo
+- A showcase of frameworks or libraries
+
+This is a **thinking project**, not a demo.
+
+---
+
+## Intended Outcome
+
+By completing and understanding this project, the developer should be able to:
+
+- Design backend systems consciously
+- Explain architectural decisions clearly
+- Build APIs that scale in complexity, not chaos
+- Debug and evolve systems with confidence
+- Know not only *how* something works, but *why*
+
+---
+
+## Status
+
+This repository evolves over time.
+Early stages are intentionally simple.
+Later stages introduce real-world complexity.
+
+Every change is part of a larger learning trajectory.
 ```
 
 ---
