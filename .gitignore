@@ -8,9 +8,8 @@ __pycache__/
 .venv/
 venv/
 
-# Env files
+# Local environment variables
 .env
-.env.*
 
 # VSCode
 .vscode/

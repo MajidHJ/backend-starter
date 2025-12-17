@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from typing import Dict
 import logging
+from dotenv import load_dotenv
+import os
 
 logging.basicConfig(level=logging.INFO)
 
@@ -8,7 +10,16 @@ logging.basicConfig(level=logging.INFO)
 
 
 def create_app() -> FastAPI :
-    logging.info('App starting ...')
+    load_dotenv()
+    app_name = os.getenv('APP_NAME')
+    debug = os.getenv('DEBUG')
+    
+    logging.info(
+        "App starting ... name=%s debug=%s",
+         app_name,
+         debug
+    )
+
     app = FastAPI()
 
     @app.get('/health')
