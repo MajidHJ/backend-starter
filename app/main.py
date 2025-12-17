@@ -9,8 +9,8 @@ logger = logging.getLogger(__name__)
 
 
 def create_app() -> FastAPI:
-    logger.info("App starting ..." )
-    
+    logger.info("App starting ... APP_NAME: %r  DEBUG: %r ",settings.app_name,settings.debug)
+
     app = FastAPI(title=settings.app_name,debug=settings.debug)
 
     @app.get("/health")
