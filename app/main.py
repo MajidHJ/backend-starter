@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,Depends
+from app.deps import get_app_name
 from typing import Dict
 import logging
 from app.logging import setup_logging
@@ -24,6 +25,10 @@ def create_app() -> FastAPI:
     def health() -> Dict[str,str]:
         return {"status": "ok"}
 
+
+    @app.get("/info")
+    def info(app_name: str = Depends(get_app_name)):
+        return {"app": app_name}
     return app
 
 
