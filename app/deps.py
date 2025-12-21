@@ -1,3 +1,4 @@
+from app.settings import settings,Settings
 
-def get_app_name()->str:
-    return "Backend Starter"
+def get_settings()-> Settings:
+    return settings
