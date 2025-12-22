@@ -6,3 +6,6 @@ def setup_logging(debug: bool) ->None:
         level = level,
         format= "%(asctime)s  |  %(levelname)s  |  %(name)s  |  %(message)s"
         )
+    
+
+# TODO: add request_id to log records via middleware/context
