@@ -1,16 +1,17 @@
-from fastapi import APIRouter,status
+from fastapi import APIRouter,Depends,status
 from fastapi.responses import JSONResponse
+from app.deps import get_settings
 
-health_router = APIRouter()
+router = APIRouter()
 
 
-@health_router.get("/health")
+@router.get("/health")
 def health() -> dict[str,str]:
     return {"status": "ok"}
 
 
 
-@health_router.get("/ready")
+@router.get("/ready")
 def ready():
     checks = {"db": "not_connected"}
 
@@ -25,4 +26,12 @@ def ready():
     return {
         "status": "ready",
         "checks": checks
+    }
+
+
+@router.get("/info")
+def info(settings = Depends(get_settings) ) ->dict[str,object]:
+    return {
+        "app": settings.app_name ,
+          "debug": settings.debug,
     }
