@@ -5,13 +5,24 @@ from app.deps import get_settings
 router = APIRouter()
 
 
-@router.get("/health")
+@router.get(
+        "/health",
+        status_code= status.HTTP_200_OK,
+)
 def health() -> dict[str,str]:
     return {"status": "ok"}
 
 
 
-@router.get("/ready")
+@router.get(
+        "/ready",
+        status_code=status.HTTP_200_OK,
+        responses= {
+            503:{
+                "description":"Service is not ready yet"
+            }
+        },
+)
 def ready():
     checks = {"db": "not_connected"}
 
@@ -19,7 +30,7 @@ def ready():
 
     if not is_ready:
         return JSONResponse(
-            status_code= status.HTTP_503_SERVICE_UNAVAILABLE,
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             content={"status": "not ready", "checks": checks}
         )
     
@@ -29,8 +40,11 @@ def ready():
     }
 
 
-@router.get("/info")
-def info(settings = Depends(get_settings) ) ->dict[str,object]:
+@router.get(
+        "/info",
+        status_code=status.HTTP_200_OK,
+)
+def info(settings = Depends(get_settings) ) ->dict[str,str|bool]:
     return {
         "app": settings.app_name ,
           "debug": settings.debug,
