@@ -1,6 +1,7 @@
 from fastapi import APIRouter,Depends,status
 from fastapi.responses import JSONResponse
 from app.deps import get_settings
+from app.schemas.common import HealthResponse
 
 router = APIRouter()
 
@@ -8,9 +9,10 @@ router = APIRouter()
 @router.get(
         "/health",
         status_code= status.HTTP_200_OK,
+        response_model=HealthResponse
 )
-def health() -> dict[str,str]:
-    return {"status": "ok"}
+def health() -> HealthResponse:
+    return HealthResponse(status="ok")
 
 
 
