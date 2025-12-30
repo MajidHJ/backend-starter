@@ -1,12 +1,11 @@
-from pydantic import BaseModel
+from pydantic import BaseModel,Field
 
 class HealthResponse(BaseModel):
     status: str
 
 class ExampleRequest(BaseModel):
-    name: str
+    name: str = Field(min_length=2)
 
 class ExampleResponse(BaseModel):
-    id: int
     name: str
 

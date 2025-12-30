@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from app.deps import get_settings
 from app.schemas.common import HealthResponse
 
-router = APIRouter()
+router = APIRouter(tags=["Infra"])
 
 
 @router.get(
