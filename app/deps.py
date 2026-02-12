@@ -1,4 +1,4 @@
-from app.settings import settings,Settings
+from app.settings import Settings, settings
 
 def get_settings()-> Settings:
     return settings

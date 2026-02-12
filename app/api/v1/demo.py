@@ -1,6 +1,6 @@
-from fastapi import APIRouter,status
+from fastapi import APIRouter,status,Query
 from fastapi.responses import JSONResponse
-from app.schemas.common import ExampleRequest,ExampleResponse,ErrorResponse
+from app.schemas.common import ExampleRequest,ExampleResponse,ErrorResponse,Page
 
 router = APIRouter(prefix="/v1",tags=["demo"])
 
@@ -19,7 +19,7 @@ def demo(payload: ExampleRequest):
 FAKE_DB = {1:{"id":1, "name":"ali"}}
 
 @router.get(
-        path="/get_user",
+        path="/get_user/{user_id}",
         status_code=status.HTTP_200_OK,
         responses={
             404:{
@@ -41,3 +41,38 @@ def get_user(user_id: int):
             ).model_dump()
         )
     return ExampleResponse(name=user.get("name"))
+
+
+
+DEMO_USERS = [
+    
+        {"id": 1, "name": "ali"},
+        {"id": 2, "name": "kia"},
+        {"id": 3, "name": "reza"},
+        {"id": 4, "name": "sara"},
+        {"id": 5, "name": "nima"},
+        {"id": 6, "name": "hoda"},
+
+    
+]
+
+
+@router.get(
+    "/get_users",
+    responses={
+        404 : {"model": ErrorResponse}
+    },
+    status_code= status.HTTP_200_OK,
+    response_model= Page[ExampleResponse]
+)
+
+def get_users(page: int = Query(1,ge=1), size: int = Query(2,ge=1,le=4)):
+
+    start = (page-1)*size
+    end = start + size
+    total = len(DEMO_USERS)
+    if start >= total :
+        return Page[ExampleResponse](items=[],total=total)
+    
+    items = [ExampleResponse(name=u["name"]) for u in DEMO_USERS[start:end]]
+    return Page[ExampleResponse](items=items,total=len(DEMO_USERS))

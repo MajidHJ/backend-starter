@@ -1,5 +1,4 @@
-from fastapi import FastAPI,Depends
-from app.deps import get_settings
+from fastapi import FastAPI
 from app.settings import settings
 import logging
 from app.api.router import api_router
@@ -12,6 +11,7 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info('Application startup')
+    logger.info('Debug mode is %s', settings.debug)
     yield
     logger.info('Application shutdown')
 

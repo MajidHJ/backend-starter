@@ -1,7 +1,8 @@
 from fastapi import APIRouter,Depends,status
 from fastapi.responses import JSONResponse
 from app.deps import get_settings
-from app.schemas.common import HealthResponse
+from app.schemas.common import HealthResponse,HealthDebugResponse
+from datetime import datetime
 
 router = APIRouter(tags=["Infra"])
 
@@ -9,10 +10,12 @@ router = APIRouter(tags=["Infra"])
 @router.get(
         "/health",
         status_code= status.HTTP_200_OK,
-        response_model=HealthResponse
+        response_model=HealthDebugResponse if get_settings().debug else HealthResponse
 )
 def health() -> HealthResponse:
-    return HealthResponse(status="ok")
+    return {"status": "ok",
+            "timestamp": datetime.now().isoformat()
+            }
 
 
 
