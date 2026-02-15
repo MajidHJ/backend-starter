@@ -2,11 +2,11 @@ from fastapi import APIRouter,status,Query
 from fastapi.responses import JSONResponse
 from app.schemas.common import ExampleRequest,ExampleResponse,ErrorResponse,Page
 
-router = APIRouter(prefix="/v1",tags=["demo"])
+router = APIRouter(prefix="/demo",tags=["demo"])
 
 
 @router.post(
-        "/demo",
+        "/demo_post",
         status_code=status.HTTP_200_OK,
         response_model= ExampleResponse,
         responses={
@@ -19,7 +19,7 @@ def demo(payload: ExampleRequest):
 FAKE_DB = {1:{"id":1, "name":"ali"}}
 
 @router.get(
-        path="/get_user/{user_id}",
+        path="/demo_get_user/{user_id}",
         status_code=status.HTTP_200_OK,
         responses={
             404:{
@@ -58,7 +58,7 @@ DEMO_USERS = [
 
 
 @router.get(
-    "/get_users",
+    "/demo_get_users",
     responses={
         404 : {"model": ErrorResponse}
     },
