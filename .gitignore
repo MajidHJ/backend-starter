@@ -19,6 +19,6 @@ venv/
 Thumbs.db
 
 # Direcories
-P-Project/
 /test
 *.zip
+run.py
