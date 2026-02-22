@@ -1,12 +1,16 @@
-from fastapi import APIRouter,status,HTTPException,Response,Query
+from fastapi import APIRouter,status,HTTPException,Response,Depends,Query
 from app.schemas.user import UserCreate,UserResponse,UserUpdate
 from app.schemas.common import ErrorResponse,Page
-
+from app.application.users.service import UserService
 
 router = APIRouter(prefix="/users",tags=["users"])
 
+
 fake_users_ : list[UserResponse]= []
 user_id = 1
+
+def get_user_service():
+    return UserService(fake_users_)
 
 
 
@@ -15,17 +19,8 @@ user_id = 1
     status_code= status.HTTP_201_CREATED,
     response_model= UserResponse,
 )
-def create_user(user: UserCreate):
-    global user_id
-    new_user = UserResponse(
-        id=user_id,
-        name=user.name,
-        email=user.email,
-    )
-
-    fake_users_.append(new_user)
-    user_id +=1
-    return new_user
+def create_user(user: UserCreate, service: UserService = Depends(get_user_service)):
+    return service.create_user(user)
 
 
 @router.get(
@@ -34,8 +29,8 @@ def create_user(user: UserCreate):
     response_model=UserResponse,
 )
 
-def get_user(id: int):
-    user = next((u for u in fake_users_ if u.id == id),None)
+def get_user_by_id(id: int, service: UserService = Depends(get_user_service)):
+    user = service.get_user_by_id(id)
     if user is None :
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
@@ -50,15 +45,12 @@ def get_user(id: int):
     status_code=status.HTTP_200_OK,
     response_model= Page[UserResponse]
 )
-def get_users(page: int = Query(1,ge=1),size: int = Query(1,ge=1,le=50) ):
-    start = (page-1)*size
-    end = start + size
-    users = Page[UserResponse](
-        items= fake_users_[start:end],
-        total=len(fake_users_),
-    ) 
-
-    return users
+def get_users(
+    page: int = Query(1,ge=1),
+    size: int = Query(10,ge=1,le=50),
+    service:UserService =  Depends(get_user_service)
+):
+    return service.get_users(page,size)
 
 
 
