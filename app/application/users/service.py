@@ -1,4 +1,4 @@
-from app.schemas.user import UserCreate,UserResponse
+from app.schemas.user import UserResponse
 from app.schemas.common import Page 
 class UserService:
 
@@ -6,12 +6,12 @@ class UserService:
         self._storage = storage
         self._next_id = max([user.id for user in storage],default= 0)+1
 
-    def create_user(self,data: UserCreate):
+    def create_user(self, *,name:str,email:str):
 
         new_user = UserResponse(
             id=self._next_id,
-            name=data.name,
-            email=data.email,
+            name=name,
+            email=email,
         )
 
         self._storage.append(new_user)
@@ -19,7 +19,7 @@ class UserService:
         return new_user
     
     
-    def get_users(self,page,size):
+    def get_users(self,page:int,size:int):
         start = (page-1)*size
         end = start + size
         users = Page[UserResponse](

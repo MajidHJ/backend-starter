@@ -7,7 +7,7 @@ router = APIRouter(prefix="/users",tags=["users"])
 
 
 fake_users_ : list[UserResponse]= []
-user_id = 1
+
 
 def get_user_service():
     return UserService(fake_users_)
@@ -20,7 +20,7 @@ def get_user_service():
     response_model= UserResponse,
 )
 def create_user(user: UserCreate, service: UserService = Depends(get_user_service)):
-    return service.create_user(user)
+    return service.create_user(name=user.name,email= user.email)
 
 
 @router.get(
@@ -67,6 +67,11 @@ def get_users(
     }
 )
 def update_user(id:int, data: UserUpdate):
+
+    # TODO(day45): Move update use-case to application layer.
+    # Route must not mutate fake_users_ directly; it should call UserService.update_user(...)
+    # [EDUCATIONAL TRADE-OFF] Direct in-route mutation is temporary until service/repository is in place.
+
     user = next((u for u in fake_users_ if u.id == id),None)
     if user is None:
         raise HTTPException(
@@ -88,6 +93,10 @@ def update_user(id:int, data: UserUpdate):
 )
 
 def delete_user(id: int):
+    # TODO(day45): Move delete use-case to application layer.
+    # Route must not remove from fake_users_ directly; it should call UserService.delete_user(...)
+    # [EDUCATIONAL TRADE-OFF] Direct in-route mutation is temporary until service/repository is in place.
+    
     idx = next((i for i,u in enumerate(fake_users_) if u.id == id),None)
     if idx is None:
         raise HTTPException(
