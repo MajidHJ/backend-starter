@@ -1,11 +1,11 @@
 from pydantic import BaseModel,Field, EmailStr
 
-class UserCreate(BaseModel):
+class CreateUserRequest(BaseModel):
     name: str =  Field(min_length=3 , max_length=50)
     email : EmailStr
 
 
-class UserUpdate(BaseModel):
+class UpdateUserRequest(BaseModel):
     name: str = Field(min_length=3, max_length=50)
 
 class UserResponse(BaseModel):
