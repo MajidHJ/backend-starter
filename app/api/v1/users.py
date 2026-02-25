@@ -3,6 +3,7 @@ from app.schemas.user import CreateUserRequest,UserResponse,UpdateUserRequest
 from app.schemas.common import ErrorResponse,Page
 from app.application.users.service import UserService
 from app.application.users.commands import CreateUserCommand
+from app.application.users.queries import GetUserQuery, ListUsersQuery
 
 router = APIRouter(prefix="/users",tags=["users"])
 
@@ -31,8 +32,9 @@ def create_user(user: CreateUserRequest, service: UserService = Depends(get_user
     response_model=UserResponse,
 )
 
-def get_user_by_id(user_id: int, service: UserService = Depends(get_user_service)):
-    user = service.get_user_by_id(user_id)
+def get_user(user_id: int, service: UserService = Depends(get_user_service)):
+    query = GetUserQuery(user_id= user_id)
+    user = service.get_user(query= query)
     if user is None :
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
@@ -52,7 +54,8 @@ def list_users(
     size: int = Query(10,ge=1,le=50),
     service:UserService =  Depends(get_user_service)
 ) -> Page[UserResponse]:
-    return service.list_users(page,size)
+    query = ListUsersQuery(page=page,size=size)
+    return service.list_users(query=query)
 
 
 

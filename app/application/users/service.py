@@ -1,6 +1,7 @@
 from app.schemas.user import UserResponse
 from app.schemas.common import Page
 from .commands import CreateUserCommand
+from .queries import GetUserQuery,ListUsersQuery
 class UserService:
 
     def __init__(self,storage: list[UserResponse]):
@@ -20,9 +21,9 @@ class UserService:
         return new_user
     
     
-    def list_users(self,page:int,size:int) -> Page[UserResponse]:
-        start = (page-1)*size
-        end = start + size
+    def list_users(self,query: ListUsersQuery ) -> Page[UserResponse]:
+        start = (query.page-1)*query.size
+        end = start + query.size
         users = Page[UserResponse](
         items= self._storage[start:end],
         total=len(self._storage),
@@ -30,6 +31,6 @@ class UserService:
         return users 
         
 
-    def get_user_by_id(self,user_id) -> UserResponse | None:
-        return next((u for u in self._storage if u.id == user_id),None)
+    def get_user(self, query: GetUserQuery) -> UserResponse | None:
+        return next((u for u in self._storage if u.id == query.user_id),None)
         
