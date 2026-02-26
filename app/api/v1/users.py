@@ -1,10 +1,10 @@
 from fastapi import APIRouter,status,HTTPException,Response,Depends,Query
 from app.schemas.user import CreateUserRequest,UserResponse,UpdateUserRequest
 from app.schemas.common import ErrorResponse,Page
-from app.application.users.commands import CreateUserCommand
+from app.application.users.commands import CreateUserCommand,UpdateUserCommand,DeleteUserCommand
 from app.application.users.queries import GetUserQuery, ListUsersQuery
 from app.application.users.service import UserService
-from app.deps import get_user_service, get_storage
+from app.deps import get_user_service
 
 router = APIRouter(prefix="/users",tags=["users"])
 
@@ -65,21 +65,18 @@ def list_users(
             }
     }
 )
-def update_user(user_id:int, data: UpdateUserRequest , storage: list = Depends(get_storage)):
+def update_user(user_id:int, data: UpdateUserRequest , service: UserService = Depends(get_user_service)):
+    cmd = UpdateUserCommand(user_id = user_id,name=data.name)
+    user = service.update_user(cmd)
 
-    # TODO(day45): Move update use-case to application layer.
-    # Route must not mutate fake_users_ directly; it should call UserService.update_user(...)
-    # [EDUCATIONAL TRADE-OFF] Direct in-route mutation is temporary until service/repository is in place.
-
-    user = next((u for u in storage if u.id == user_id),None)
     if user is None:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
             detail= f"user with id: {user_id} not found",
         )
-
-    user.name = data.name
+    
     return user
+     
 
 
 
@@ -91,16 +88,14 @@ def update_user(user_id:int, data: UpdateUserRequest , storage: list = Depends(g
     }
 )
 
-def delete_user(user_id : int , storage: list = Depends(get_storage)):
-    # TODO(day45): Move delete use-case to application layer.
-    # Route must not remove from fake_users_ directly; it should call UserService.delete_user(...)
-    # [EDUCATIONAL TRADE-OFF] Direct in-route mutation is temporary until service/repository is in place.
-    
-    idx = next((i for i,u in enumerate(storage) if u.id == user_id),None)
-    if idx is None:
+def delete_user(user_id : int , service: UserService = Depends(get_user_service)):
+    cmd = DeleteUserCommand(user_id=user_id)
+    ok = service.delete_user(cmd)
+  
+    if not ok:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
             detail= f"user with id: {user_id} not found",
         )
-    storage.pop(idx)
+    
     return Response(status_code=status.HTTP_204_NO_CONTENT)

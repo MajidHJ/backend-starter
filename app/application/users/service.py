@@ -1,7 +1,8 @@
 from app.schemas.user import UserResponse
 from app.schemas.common import Page
-from .commands import CreateUserCommand
+from .commands import CreateUserCommand,DeleteUserCommand,UpdateUserCommand
 from .queries import GetUserQuery,ListUsersQuery
+
 class UserService:
 
     def __init__(self,storage: list[UserResponse]):
@@ -33,4 +34,19 @@ class UserService:
 
     def get_user(self, query: GetUserQuery) -> UserResponse | None:
         return next((u for u in self._storage if u.id == query.user_id),None)
+        
+
+    def update_user(self, cmd: UpdateUserCommand) -> UserResponse | None:
+        user = next((u for u in self._storage if u.id == cmd.user_id),None)
+        if user is None:
+            return None
+        user.name = cmd.name
+        return user
+
+    def delete_user(self, cmd: DeleteUserCommand) -> bool:
+        idx = next((i for i,u in enumerate(self._storage) if u.id == cmd.user_id),None)
+        if idx is None:
+            return False
+        self._storage.pop(idx)
+        return True
         
